@@ -3,9 +3,11 @@
 #include <vector>
 #include <iostream>
 #include <string>
-class cli{
+using namespace std;
+class parser{
 	vector<string> tokens;
 	public:
+		parser();
 		vector<string> tokenizer(string words);
 		void printtokens();
 };
