@@ -1,8 +1,18 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <cstring>
+
 #include "parser.h"
 using namespace std;
+void parser::tokenize(string const &str, const char* space,vector<string> &out){
+    char *token = strtok(const_cast<char*>(str.c_str()), space);
+    while (token != nullptr){
+        out.push_back(string(token));
+        token = strtok(nullptr, space);
+    }
+}
+
 vector<string> parser::tokenizer(string words){
 	//vector<string> tokens;
 	int pos1=0;
@@ -30,5 +40,30 @@ void  parser::printtokens(){
 parser::parser(){}
 /*
 
+void tokenize(std::string const &str, const char* delim,
+            std::vector<std::string> &out)
+{
+    char *token = strtok(const_cast<char*>(str.c_str()), delim);
+    while (token != nullptr)
+    {
+        out.push_back(std::string(token));
+        token = strtok(nullptr, delim);
+    }
+}
+ 
+int main()
+{
+    std::string s = "we are professional blogger";
+    const char* delim = " ";
+ 
+    std::vector<std::string> out;
+    tokenize(s, delim, out);
+ 
+    for (auto &s: out) {
+        std::cout << s << '\n';
+    }
+ 
+    return 0;
+}
 
 */

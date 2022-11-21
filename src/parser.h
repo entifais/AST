@@ -10,5 +10,6 @@ class parser{
 		parser();
 		vector<string> tokenizer(string words);
 		void printtokens();
+		void tokenize(string const &str, const char* space,vector<string> &out);
 };
 #endif

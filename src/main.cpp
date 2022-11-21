@@ -9,7 +9,17 @@ int main(){
 	string txt;
 	//getline(cin,txt);
 	//cout<<txt<<endl;
-	vector<string> vec = p.tokenizer("hola mundo como estas");
+	txt="hola mundo como estas ?";
+    vector<std::string> out;
+    p.tokenize(txt, " ", out);
+    for (auto &txt: out) {
+        cout <<txt<< '\n';
+    }
+	
+	//vector<string> vec = p.tokenizer();
+ 
+ 
+ 
 	p.printtokens();
 	return 0;
 }
