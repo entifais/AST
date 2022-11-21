@@ -1,3 +1,7 @@
 # AST
 
-¿primero tokenizar,luego construccion de la gramatica para metersela al parser?
+parser para analizar gramatica en español de oracion simple
+
+compilador 
+
+	gcc version 12.2.0 (GCC) 

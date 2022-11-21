@@ -3,8 +3,9 @@
 #include <string>
 #include <cstring>//para usar el metodo strtok
 #include <fstream>
-
 #include "parser.h"
+
+
 using namespace std;
 void parser::tokenize(string const &str, const char* space,vector<string> &out){
     char *token = strtok(const_cast<char*>(str.c_str()), space);
@@ -26,29 +27,33 @@ int parser::buscarVerbo(vector<string> &tokens, string nombreArchivo){
     string linea;
     int validaciones=0;
     int pos;
-    for(int i = 0; i < tokens.size(); i++){//desde uno por que el sujeto deberia estar una posicion del arreglo, las posicones serain tokens
         //while (getline(archivo, linea)) {
+        for(int i = 0; i < tokens.size(); i++){//desde uno por que el sujeto deberia estar una posicion del arreglo, las posicones serain tokens
         if(archivo.fail()){
-            cout<<"error!"<<endl;
+            cout<<"error! abriendo archivo: "<<nombreArchivo<<endl;
+            cout<<"revise que sus verbos o sustantivos esten en el archivo"<<endl;
         }
         if(archivo.is_open()){
             do{
-                archivo>>linea;
-                cout<<tokens[i]<<"\t=\t"<<linea<<"\n---------"<<endl;
-                if(tokens[i]==linea){
-                    validaciones++;
-                    pos=i;
-                }//nos quedamos bucando otro verbo y si lo hay esta malo y retornamos un numero de error
-                if(validaciones>=2){
-                    cout<<"2 o mas verbos"<<endl;
-                    return -1;
-                } 
+                    archivo>>linea;
+                    cout<<tokens[i]<<"\t=\t"<<linea<<"\n---------"<<endl;
+                    if(tokens[i]==linea){
+                        validaciones++;
+                        pos=i;
+                    }//nos quedamos bucando otro verbo y si lo hay esta malo y retornamos un numero de error
+                    if(validaciones>=2){
+                        cout<<"2 o mas verbos"<<endl;
+                        return -1;
+                    }
+                
             }while(!archivo.fail());
         }
         else{
-            cout<<"error abriendo el archivo"<<endl;
+            cout<<"error! abriendo archivo: "<<nombreArchivo<<endl;
+            cout<<"revise que sus verbos o sustantivos esten en el archivo"<<endl;
         }
     }
+    
     if(validaciones==1){
         return pos;
     }
@@ -57,16 +62,32 @@ int parser::buscarVerbo(vector<string> &tokens, string nombreArchivo){
     }
 }
 int parser::validar(vector<string> &tokens, string nombreArchivo,int pos){
-    ifstream archivo(nombreArchivo.c_str());//abre un archivo de sustantivos
+    //ifstream archivo(nombreArchivo.c_str());//abre un archivo de sustantivos
+    ifstream archivo;
+    archivo.open(nombreArchivo,ios::in);
     string linea;
     int validaciones=0;
-    for(int i = pos; 0 < i; i--){
-        while (getline(archivo, linea)) {
-            if(tokens[i]==linea){
-                return 1;
-            }
-        }
+
+    if(archivo.fail()){
+        cout<<"error! abriendo archivo: "<<nombreArchivo<<endl;
+        cout<<"revise que sus verbos o sustantivos esten en el archivo"<<endl;
     }
-    return -1;
+
+    if(archivo.is_open()){
+        do{
+            for(int i = 0; i< pos; i++){
+                cout<<tokens[i]<<"\t=\t"<<linea<<"\n---------"<<endl;
+                archivo>>linea;            
+                if(tokens[i]==linea){
+                    validaciones=1;
+                }
+            }
+        }while(!archivo.eof());
+    }else{
+        cout<<"error! abriendo archivo: "<<nombreArchivo<<endl;
+            cout<<"revise que sus verbos o sustantivos esten en el archivo"<<endl;
+    }
+    
+    return validaciones;
 }
 parser::parser(){}

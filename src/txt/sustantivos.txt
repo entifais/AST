@@ -1,2 +1,6 @@
+-
 el
 ella
+eso
+perro
+gato
