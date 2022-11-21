@@ -7,21 +7,21 @@ using namespace std;
 int main(){
 	parser p;
 	string txt;
-	//getline(cin,txt);
+	getline(cin,txt);
 	//cout<<txt<<endl;
-	txt="el gato corre";
+	//txt="el gato corre";
 	vector<string> out;
 	p.tokenize(txt, " ", out);
 	//p.printtokens(out);
 	int pos=p.buscarVerbo(out,"src/txt/verbos.txt");
 	if (pos==-1){
-		cout<<"se encontro mas de un verbo o no se encontro ningun verbo, la oracion no es valida y revise la ortografia"<<endl;
+		cout<<"---------\n"<<"no se encontro ningun verbo, la oracion no es valida y revise la ortografia"<<endl;
 	}else{
 		cout<<"sustantivos"<<endl;
 		int esValido=p.validar(out,"src/txt/sustantivos.txt",pos);
 		cout<<pos<<endl<<esValido<<endl;
 		if(esValido==1){
-			cout<<"La oracion es valida"<<endl;
+			cout<<"---------\n\n"<<"La oracion es valida\n"<<"---------"<<endl;
 		}
 	}
 	return 0;
