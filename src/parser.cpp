@@ -1,7 +1,8 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include <cstring>
+#include <cstring>//para usar el metodo strtok
+#include <fstream>
 
 #include "parser.h"
 using namespace std;
@@ -13,57 +14,59 @@ void parser::tokenize(string const &str, const char* space,vector<string> &out){
     }
 }
 
-vector<string> parser::tokenizer(string words){
-	//vector<string> tokens;
-	int pos1=0;
-	int pos2;
-	for(int i=0;i<=words.size()+1;i++){
-		if(words[i]==' '){
-			cout<<"espacio"<<endl;
-			pos2=i;
-			this->tokens.push_back(words.substr(pos1,pos2));
-			pos1=i+1;
-		 }
-		 if(i==words.size()){
-		 	this->tokens.push_back(words.substr(pos2+1,i));
-		 }
-		cout<<words[i]<<"\t"<<pos1<<"\t"<<pos2<<endl;
+void  parser::printtokens(vector<string> &vec){
+	for(int i=0;i<vec.size();i++){
+		cout<<vec[i]<<endl;
 	}
-	return this->tokens;
 }
-void  parser::printtokens(){
-	for(int i=0;i<this->tokens.size();i++){
-		cout<<this->tokens[i]<<endl;
-
-	}
+int parser::buscarVerbo(vector<string> &tokens, string nombreArchivo){
+    //ifstream archivo(nombreArchivo.c_str());
+    ifstream archivo;
+    archivo.open(nombreArchivo,ios::in);
+    string linea;
+    int validaciones=0;
+    int pos;
+    for(int i = 0; i < tokens.size(); i++){//desde uno por que el sujeto deberia estar una posicion del arreglo, las posicones serain tokens
+        //while (getline(archivo, linea)) {
+        if(archivo.fail()){
+            cout<<"error!"<<endl;
+        }
+        if(archivo.is_open()){
+            do{
+                archivo>>linea;
+                cout<<tokens[i]<<"\t=\t"<<linea<<"\n---------"<<endl;
+                if(tokens[i]==linea){
+                    validaciones++;
+                    pos=i;
+                }//nos quedamos bucando otro verbo y si lo hay esta malo y retornamos un numero de error
+                if(validaciones>=2){
+                    cout<<"2 o mas verbos"<<endl;
+                    return -1;
+                } 
+            }while(!archivo.fail());
+        }
+        else{
+            cout<<"error abriendo el archivo"<<endl;
+        }
+    }
+    if(validaciones==1){
+        return pos;
+    }
+    if(validaciones==0){
+        return -1;
+    }
+}
+int parser::validar(vector<string> &tokens, string nombreArchivo,int pos){
+    ifstream archivo(nombreArchivo.c_str());//abre un archivo de sustantivos
+    string linea;
+    int validaciones=0;
+    for(int i = pos; 0 < i; i--){
+        while (getline(archivo, linea)) {
+            if(tokens[i]==linea){
+                return 1;
+            }
+        }
+    }
+    return -1;
 }
 parser::parser(){}
-/*
-
-void tokenize(std::string const &str, const char* delim,
-            std::vector<std::string> &out)
-{
-    char *token = strtok(const_cast<char*>(str.c_str()), delim);
-    while (token != nullptr)
-    {
-        out.push_back(std::string(token));
-        token = strtok(nullptr, delim);
-    }
-}
- 
-int main()
-{
-    std::string s = "we are professional blogger";
-    const char* delim = " ";
- 
-    std::vector<std::string> out;
-    tokenize(s, delim, out);
- 
-    for (auto &s: out) {
-        std::cout << s << '\n';
-    }
- 
-    return 0;
-}
-
-*/

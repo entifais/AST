@@ -5,11 +5,13 @@
 #include <string>
 using namespace std;
 class parser{
-	vector<string> tokens;
 	public:
 		parser();
-		vector<string> tokenizer(string words);
-		void printtokens();
+		void printtokens(vector<string> &vec);
 		void tokenize(string const &str, const char* space,vector<string> &out);
+		int buscarVerbo(vector<string> &tokens,string nombreArchivo);
+		int validar(vector<string> &tokens,string nombreArchivo,int pos);
+
+
 };
 #endif

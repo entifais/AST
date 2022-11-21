@@ -9,17 +9,17 @@ int main(){
 	string txt;
 	//getline(cin,txt);
 	//cout<<txt<<endl;
-	txt="hola mundo como estas ?";
-    vector<std::string> out;
-    p.tokenize(txt, " ", out);
-    for (auto &txt: out) {
-        cout <<txt<< '\n';
-    }
-	
-	//vector<string> vec = p.tokenizer();
- 
- 
- 
-	p.printtokens();
+	txt="el nada";
+	vector<string> out;
+	p.tokenize(txt, " ", out);
+	//p.printtokens(out);
+	int pos=p.buscarVerbo(out,"verbos.txt");
+	if (pos==-1){
+		cout<<"se encontro mas de un verbo o no se encontro ningun verbo, la oracion no es valida y revise la ortografia"<<endl;
+	}
+	int esValido=p.validar(out,"txt/sustantivos.txt",pos);
+	if(esValido==1){
+		cout<<"La oracion es valida"<<endl;
+	}
 	return 0;
 }
