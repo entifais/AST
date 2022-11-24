@@ -22,6 +22,8 @@ int main(){
 		cout<<pos<<endl<<esValido<<endl;
 		if(esValido==1){
 			cout<<"---------\n\n"<<"La oracion es valida\n"<<"---------"<<endl;
+		}else{
+			cout<<"---------\n\n"<<"La NO oracion es valida\n"<<"---------"<<endl;
 		}
 	}
 	return 0;
